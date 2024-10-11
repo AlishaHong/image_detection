@@ -12,7 +12,7 @@ def split_dataset(data_dir, output_dir, train_ratio=0.8, valid_ratio=0.1):
     train_end = int(total_count * train_ratio)
     valid_end = int(total_count * (train_ratio + valid_ratio))
 
-    # 폴더 경로 생성
+    # 하위폴더인 train/valid/test 경로 생성
     for subset in ['train', 'valid', 'test']:
         os.makedirs(os.path.join(output_dir, subset, 'images'), exist_ok=True)
         os.makedirs(os.path.join(output_dir, subset, 'labels'), exist_ok=True)
@@ -22,8 +22,8 @@ def split_dataset(data_dir, output_dir, train_ratio=0.8, valid_ratio=0.1):
         for image_file in file_list:
             # 이미지 파일 복사
             shutil.copy(
-                os.path.join(data_dir, image_file),
-                os.path.join(output_dir, subset, 'images', image_file)
+                os.path.join(data_dir, image_file), #원본데이터경로
+                os.path.join(output_dir, subset, 'images', image_file)  # 새로운전체경로
             )
 
             # 이미지 파일과 동일한 이름의 텍스트 파일 복사
