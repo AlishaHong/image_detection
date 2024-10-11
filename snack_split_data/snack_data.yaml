@@ -1,0 +1,6 @@
+train: C:\Users\SBA\repository\image_detection\snack_split_data\train\images
+val: C:\Users\SBA\repository\image_detection\snack_split_data\valid\images
+test: C:\Users\SBA\repository\image_detection\snack_split_data\test\images
+
+nc: 3
+names: ['snack','hush','eclipse']
