@@ -5,6 +5,8 @@ import os
 import glob
 import random
 
+# opencv로 bright와 contrast 조절 
+
 class ImageProcessor:
     def __init__(self, data_dir):
         self.data_dir = data_dir
@@ -29,7 +31,7 @@ class ImageProcessor:
         sys.exit(f"{img_name} 파일이 없어요!")
 
 
-    # 기존 .txt 파일을 읽어오는 함수
+    # 기존 .txt 파일을 읽어오는 함수0
     def load_text_file(self, img_name):
         text_file_path = os.path.join(self.data_dir, 'snack_dataOrg2_640', f'{img_name}.txt')
         if os.path.exists(text_file_path):
@@ -53,14 +55,8 @@ class ImageProcessor:
         # 최종 파일 경로 설정
         file_path = os.path.join(new_text_file_dir, f'{new_img_name}.txt')
         with open(file_path, 'w', encoding='utf-8') as file:
-            file.write(content)
-        # print(f"텍스트 파일이 저장되었습니다: {file_path}")  # 디버깅 로그 추가   
-            
-            
-    # 이미지 사이즈 조절하기
-    # def resize_image640(self, img, width=640, height=640):
-    #     return cv2.resize(img, (width, height))
-
+            file.write(content)  
+    
     
     # 저장 경로 생성 함수
     def make_save_path(self,imgName, pre_img_str):
@@ -79,11 +75,7 @@ class ImageProcessor:
         save_path = self.make_save_path(img_name, pre_img_str)
         
         # 이미지 저장
-        success = cv2.imwrite(save_path, img)
-        # if success:
-            # print(f"이미지가 저장되었습니다: {save_path}")  # 파일 저장 완료 로그
-        # else:
-            # print(f"이미지 저장 실패: {save_path}")  # 파일 저장 실패 로그
+        cv2.imwrite(save_path, img)
 
 
     # 채도와 명도 조절
@@ -99,14 +91,11 @@ class ImageProcessor:
 
     # 전처리 과정 실행
     # 원하는 기능만 실행하도록 boolean값 줌 
-    # def process_image(self, img_name, rotate_on = False, quadrants_on = False, select_roi_on = False, random_crop_on = False, sb_on = True):
     def process_image(self, img_name, sb_on = True):
         img = self.load_image_by_name(img_name)
         if img is None:
             print(f"이미지를 로드할 수 없습니다: {img_name}")
             return
-        # resize_image640 = self.resize_image640(img)
-        # print(f"{img_name} 이미지 리사이징 완료")
         
         # 원본 이미지의 .txt 파일 내용 불러오기
         original_text_content = self.load_text_file(img_name)
@@ -117,11 +106,6 @@ class ImageProcessor:
             # print('채도명도')
             saturation_scale = np.arange(0.4, 1.1, 0.1)
             brightness_scale = np.arange(0.4, 1.1, 0.1)       
-            # for saturation in saturation_scale:
-            #     for brightness in brightness_scale:
-            #         for angle in angles:
-            #             adjusted_img = self.adjust_brightness_and_saturation(resize_image640, saturation, brightness)
-            #             self.save_image(adjusted_img, img_name, f'brightness_saturation_{saturation:.1f}_{brightness:.1f}_rotate_{angle}')
 
             for saturation in saturation_scale:
                 for brightness in brightness_scale:
@@ -136,23 +120,6 @@ class ImageProcessor:
                     if original_text_content:
                         txt_name = f'{new_img_name}_brightness_saturation'
                         self.save_text_file(txt_name, original_text_content)
-
-# # 메인 실행 함수
-# def main():
-#     data_path = os.getcwd()
-#     processor = ImageProcessor(data_path)   # 객체 생성
-#     for file_name in processor.file_names:
-#         # print(file_name)
-#         basename = os.path.basename(file_name)
-#         img_name, _ = os.path.splitext(basename)
-#         # processor.process_image(img_name, sb_on = False, select_roi_on=False)
-#         # 필요하지 않은 기능은 Fasle로 바꿔서 전처리 기능을 실행하지 않음
-#         processor.process_image(img_name)
-#         img = ImageProcessor.load_image_by_name(img_name)
-#         height, width, _ = img.shape  # 이미지의 높이와 너비를 얻음
-#         print(f"Image resolution: {width}x{height}")  # 해상도 출력
-# if __name__ == "__main__":
-#     main()
 
     
 

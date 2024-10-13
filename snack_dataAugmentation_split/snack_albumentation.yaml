@@ -1,6 +1,0 @@
-train: /kaggle/input/snack-ver1image-albumentation/snack_dataAugmentation_split/train/images
-val: /kaggle/input/snack-ver1image-albumentation/snack_dataAugmentation_split/valid/images
-test: /kaggle/input/snack-ver1image-albumentation/snack_dataAugmentation_split/test/images
-
-nc: 3
-names: ['snack','chocolate','eclipse']
