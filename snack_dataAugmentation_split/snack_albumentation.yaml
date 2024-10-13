@@ -4,4 +4,3 @@ test: /kaggle/input/snack-ver1image-albumentation/snack_dataAugmentation_split/t
 
 nc: 3
 names: ['snack','chocolate','eclipse']
-/kaggle/input/snack-ver1image-albumentation
