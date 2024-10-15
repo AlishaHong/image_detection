@@ -2,7 +2,7 @@ import os
 import shutil
 import random
 
-def split_dataset(data_dir, output_dir, train_ratio=0.8, valid_ratio=0.1):
+def split_dataset(data_dir, output_dir, train_ratio=0.75, valid_ratio=0.1):
     # 데이터 폴더 내 하위폴더까지 들어가서 모든 jpg 파일 목록 가져옴 
     for root, subdirs, files in os.walk(data_dir):
         for subdir in subdirs:
@@ -17,7 +17,11 @@ def split_dataset(data_dir, output_dir, train_ratio=0.8, valid_ratio=0.1):
             valid_end = int(total_count * (train_ratio + valid_ratio))
 
             # 폴더 경로 생성하는데 기존의 코드와 다른점은 images/labels 아래에 클래스 경로를 붙여서 생성해줌
-            for subset in ['train', 'valid', 'test']:
+            # for subset in ['train', 'valid', 'test']:
+            #     os.makedirs(os.path.join(output_dir, subset, 'images', subdir), exist_ok=True)
+            #     os.makedirs(os.path.join(output_dir, subset, 'labels', subdir), exist_ok=True)
+            
+            for subset in ['train', 'valid']:
                 os.makedirs(os.path.join(output_dir, subset, 'images', subdir), exist_ok=True)
                 os.makedirs(os.path.join(output_dir, subset, 'labels', subdir), exist_ok=True)
 
@@ -42,7 +46,7 @@ def split_dataset(data_dir, output_dir, train_ratio=0.8, valid_ratio=0.1):
             # Split the dataset into train, valid, and test sets
             copy_files(image_files[:train_end], 'train')
             copy_files(image_files[train_end:valid_end], 'valid')
-            copy_files(image_files[valid_end:], 'test')
+            # copy_files(image_files[valid_end:], 'test')
 
             print(f"{subdir}폴더 분리완료")
 
@@ -57,10 +61,10 @@ def split_dataset(data_dir, output_dir, train_ratio=0.8, valid_ratio=0.1):
     print(f"Train folder label count: {count_files_in_directory(os.path.join(output_dir, 'train', 'labels'))}")
     print(f"Valid folder image count: {count_files_in_directory(os.path.join(output_dir, 'valid', 'images'))}")
     print(f"Valid folder label count: {count_files_in_directory(os.path.join(output_dir, 'valid', 'labels'))}")
-    print(f"Test folder image count: {count_files_in_directory(os.path.join(output_dir, 'test', 'images'))}")
-    print(f"Test folder label count: {count_files_in_directory(os.path.join(output_dir, 'test', 'labels'))}")
+    # print(f"Test folder image count: {count_files_in_directory(os.path.join(output_dir, 'test', 'images'))}")
+    # print(f"Test folder label count: {count_files_in_directory(os.path.join(output_dir, 'test', 'labels'))}")
 
 # go! 
-data_dir = 'snack_dataAugmentation_random'  # 원본 데이터 경로
-output_dir = 'snack_dataAugmentation_split'  # 분리한 데이터를 저장할 폴더
+data_dir = 'origin'  # 원본 데이터 경로
+output_dir = 'origin_albu_test'  # 분리한 데이터를 저장할 폴더
 split_dataset(data_dir, output_dir)
