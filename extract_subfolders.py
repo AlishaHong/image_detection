@@ -22,6 +22,6 @@ def extract_all_zip_in_folder(folder_path):
                 extract_zip(file_path, extract_to)
 
 if __name__ == "__main__":
-    folder_path = '[원천]양추정_VAL'
+    folder_path = '음식이미지'
     extract_all_zip_in_folder(folder_path)
     
