@@ -2,7 +2,8 @@ import os
 import shutil
 import random
 
-def split_dataset(data_dir, output_dir, train_ratio=0.8, valid_ratio=0.1):
+def split_dataset(data_dir, output_dir, train_ratio=0.6, valid_ratio=0.4, seed = 42):
+    random.seed(seed)  # 랜덤 시드 설정
     # 데이터 폴더에서 모든 jpg 파일 목록을 가져오기 (txt 파일은 jpg 파일과 짝지어 이동)
     image_files = [f for f in os.listdir(data_dir) if f.endswith('.jpg')]
     random.shuffle(image_files)  # 무작위로 파일 리스트 섞기
@@ -13,7 +14,7 @@ def split_dataset(data_dir, output_dir, train_ratio=0.8, valid_ratio=0.1):
     valid_end = int(total_count * (train_ratio + valid_ratio))
 
     # 하위폴더인 train/valid/test 경로 생성
-    for subset in ['train', 'valid', 'test']:
+    for subset in ['train', 'valid']:
         os.makedirs(os.path.join(output_dir, subset, 'images'), exist_ok=True)
         os.makedirs(os.path.join(output_dir, subset, 'labels'), exist_ok=True)
 
@@ -38,9 +39,9 @@ def split_dataset(data_dir, output_dir, train_ratio=0.8, valid_ratio=0.1):
     # 데이터셋을 train, valid, test로 나누어 복사
     copy_files(image_files[:train_end], 'train')
     copy_files(image_files[train_end:valid_end], 'valid')
-    copy_files(image_files[valid_end:], 'test')
+    # copy_files(image_files[valid_end:], 'test')//
 
-    print(f"데이터셋 분할 완료: {output_dir}/train, {output_dir}/valid, {output_dir}/test")
+    print(f"데이터셋 분할 완료: {output_dir}/train, {output_dir}/valid")
 
     # 각 폴더의 파일 개수를 계산하는 함수
     def count_files_in_directory(directory):
@@ -51,13 +52,13 @@ def split_dataset(data_dir, output_dir, train_ratio=0.8, valid_ratio=0.1):
     print(f"Train 폴더 라벨 개수: {count_files_in_directory(os.path.join(output_dir, 'train', 'labels'))}")
     print(f"Valid 폴더 이미지 개수: {count_files_in_directory(os.path.join(output_dir, 'valid', 'images'))}")
     print(f"Valid 폴더 라벨 개수: {count_files_in_directory(os.path.join(output_dir, 'valid', 'labels'))}")
-    print(f"Test 폴더 이미지 개수: {count_files_in_directory(os.path.join(output_dir, 'test', 'images'))}")
-    print(f"Test 폴더 라벨 개수: {count_files_in_directory(os.path.join(output_dir, 'test', 'labels'))}")
+    # print(f"Test 폴더 이미지 개수: {count_files_in_directory(os.path.join(output_dir, 'test', 'images'))}")
+    # print(f"Test 폴더 라벨 개수: {count_files_in_directory(os.path.join(output_dir, 'test', 'labels'))}")
 
 
 
 
 # 메인 함수 실행
-data_dir = 'snack_dataAugmentation_random'  # 원본 데이터 폴더 경로
-output_dir = 'snack_dataAugmentation_split'  # 데이터를 나눠서 저장할 폴더
+data_dir = '통합본'  # 원본 데이터 폴더 경로
+output_dir = 'total_splited2_for_4times'  # 데이터를 나눠서 저장할 폴더
 split_dataset(data_dir, output_dir)
