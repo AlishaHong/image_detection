@@ -59,6 +59,6 @@ def split_dataset(data_dir, output_dir, train_ratio=0.6, valid_ratio=0.4, seed =
 
 
 # 메인 함수 실행
-data_dir = '통합본'  # 원본 데이터 폴더 경로
-output_dir = 'total_splited2_for_4times'  # 데이터를 나눠서 저장할 폴더
+data_dir = '9th_soft'  # 원본 데이터 폴더 경로
+output_dir = '9th_soft_splited'  # 데이터를 나눠서 저장할 폴더
 split_dataset(data_dir, output_dir)
